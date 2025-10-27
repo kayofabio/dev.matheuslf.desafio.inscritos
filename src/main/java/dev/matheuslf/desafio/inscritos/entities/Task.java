@@ -1,7 +1,10 @@
 package dev.matheuslf.desafio.inscritos.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import dev.matheuslf.desafio.inscritos.entities.enums.TaskPriority;
 import dev.matheuslf.desafio.inscritos.entities.enums.TaskStatus;
@@ -9,12 +12,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_task")
-public class Task {
+public class Task implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -25,10 +32,15 @@ public class Task {
 	private TaskPriority priority;
 	private Date dueDate;
 	
+	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "project_id")
+	private Project project;
+	
 	public Task() {
 	}
 
-	public Task(Long id, String title, String description, TaskStatus status, TaskPriority priority, Date dueDate) {
+	public Task(Long id, String title, String description, TaskStatus status, TaskPriority priority, Date dueDate, Project project) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -36,6 +48,7 @@ public class Task {
 		this.status = status;
 		this.priority = priority;
 		this.dueDate = dueDate;
+		this.project = project;
 	}
 
 	public Long getId() {
@@ -84,6 +97,14 @@ public class Task {
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
+	}
+
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	@Override

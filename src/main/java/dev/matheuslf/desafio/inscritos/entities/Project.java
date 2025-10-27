@@ -1,13 +1,16 @@
 package dev.matheuslf.desafio.inscritos.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +28,9 @@ public class Project implements Serializable {
 	
 	private Date startDate;
 	private Date endDate;
+	
+	@OneToMany(mappedBy = "project")
+	private List<Task> tasks = new ArrayList<>();
 	
 	public Project() {
 	}
@@ -76,6 +82,10 @@ public class Project implements Serializable {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public List<Task> getTasks() {
+		return tasks;
 	}
 
 	@Override

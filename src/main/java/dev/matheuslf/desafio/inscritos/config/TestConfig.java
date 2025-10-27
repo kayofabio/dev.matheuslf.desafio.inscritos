@@ -37,8 +37,9 @@ public class TestConfig implements CommandLineRunner {
 		projectRepository.saveAll(Arrays.asList(p1, p2));
 		
 		d1 = Date.from(Instant.parse("2025-11-01T00:00:00Z"));
-		Task t1 = new Task(null, "limite de arquivos", "estabelecer limite de arquivos para cópia", TaskStatus.DOING, TaskPriority.HIGH, d1);
-		
+		Task t1 = new Task(null, "limite de arquivos", "estabelecer limite de arquivos para cópia", TaskStatus.DOING, TaskPriority.HIGH, d1, p1);
+		p1.getTasks().add(t1);
 		taskRepository.save(t1);
+		projectRepository.save(p1);
 	}
 }
